@@ -1,44 +1,35 @@
-import React from 'react'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { increment } from '../assets/redux/slice/countSlice'
-import { decrement } from '../assets/redux/slice/countSlice'
-import ChangeStatus from '../component/changeStatus/index'
-import Status from '../component/status/index'
-// import Home from './component/home'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from './userSlice';
 
-const Home = () => {
+function UserList() {
+  const dispatch = useDispatch();
+  const { userList, status, error } = useSelector((state) => state.user);
 
-    const [count, setCount] = useState(0)
-    //untuk panggil state
-    const countRedux = useSelector((state) => state.count.count) 
-    // const status = useSelector((state)=> state.st watus.status)
-    //untuk set state
-    const dispatch = useDispatch()
-    return (
-    <>
-        <h1 className='text-3xl text-red-900 '>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => dispatch(increment())}>
-          add +1
-        </button>
-        <button onClick={() => dispatch(decrement())}>
-          minus -1
-        </button>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          ini merupakan {countRedux} dari toolkit 
-        </p>
-        
-      
-      <Status/>
-      <ChangeStatus/>
-      <Home/>
-      </div>
-    </>
-  )
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, status]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div>
+      <h1>User List</h1>
+      <ul>
+        {userList.map((user) => (
+          <li key={user.id}>{user.email}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default Home
+export default UserList;
