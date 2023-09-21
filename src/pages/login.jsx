@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../assets/redux/slice/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const Login = () => {
     e.preventDefault();
     console.log("submit", password, email);
     dispatch(loginUser({ email, password }));
+    navigate('/')
   };
 
   const dispatch = useDispatch();
