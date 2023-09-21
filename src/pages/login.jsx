@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../assets/redux/slice/loginSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useHistory } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +12,11 @@ const Login = () => {
     console.log("submit", password, email);
     dispatch(loginUser({ email, password }));
     navigate('/')
+    history.push('/user');
   };
 
   const dispatch = useDispatch();
+  const history = useHistory()
   const status = useSelector((state) => state.login.status);
   const error = useSelector((state) => state.login.error);
   const token = useSelector((state) => state.login.token)

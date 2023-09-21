@@ -21,12 +21,12 @@ function UserList() {
   }
 
   return (
-    <div>
-      <h1>User List</h1>
-      <ul>
+    <div className="w-screen h-screen m-10">
+      <h1 className="font-bold text-xl flex justify-center" >User List</h1>
+      <ul className="grid grid-cols-3 mt-20">
         {userList.map((user) => (
           // <li key={user.id}>{user.email}</li>
-          <div key={user.id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div key={user.id} className="max-w-sm m-10 flex justify-center items-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="user">
               <img
                 className="rounded-t-lg"
