@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../assets/redux/slice/loginSlice";
-import { useNavigate, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submit", password, email);
     dispatch(loginUser({ email, password }));
-    navigate('/')
-    history.push('/user');
+    const status = useSelector((state) => state.login.status);
+    if (status === 'succeeded') {
+      // Redirect to the desired page (e.g., user page)
+      navigate("/user");
   };
+}
 
   const dispatch = useDispatch();
-  const history = useHistory()
   const status = useSelector((state) => state.login.status);
   const error = useSelector((state) => state.login.error);
   const token = useSelector((state) => state.login.token)
